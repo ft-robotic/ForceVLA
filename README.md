@@ -39,7 +39,7 @@ pip install -e .
 ```
 
 ```bash
-cd ./ForcevVLA
+cd ./ForceVLA
 pip install -e .
 ```
 
