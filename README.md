@@ -39,6 +39,11 @@ pip install -e .
 ```
 
 ```bash
+cd ./ForcevVLA
+pip install -e .
+```
+
+```bash
 cd dlimp/
 pip install -e .
 ```
