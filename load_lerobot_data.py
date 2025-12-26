@@ -6,7 +6,7 @@ from huggingface_hub import HfApi
 import lerobot
 from lerobot.common.datasets.lerobot_dataset import LeRobotDataset, LeRobotDatasetMetadata
 
-repo_id = "/media/forceyqj/3ac51dbb-cd9f-41ab-a94c-a15affbbbe36/flexiv_teleop_dataset/lerobot/flexiv_peel_cucumber_inputForce"
+repo_id = "XXX"
 # We can have a look and fetch its metadata to know more about it:
 ds_meta = LeRobotDatasetMetadata(repo_id)
 
