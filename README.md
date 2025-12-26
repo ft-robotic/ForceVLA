@@ -37,20 +37,84 @@ git clone --recurse-submodules git@github.com:Physical-Intelligence/openpi.git
 
 # Or if you already cloned the repo:
 git submodule update --init --recursive
-```
+# pi_0
+git checkout d469782f1c40971b31cbdb37e8ca8ef391201c88
+git submodule update --init --recursive
 
-We use [uv](https://docs.astral.sh/uv/) to manage Python dependencies. See the [uv installation instructions](https://docs.astral.sh/uv/getting-started/installation/) to set it up. Once uv is installed, run the following to set up the environment:
+```
 
 ```bash
-GIT_LFS_SKIP_SMUDGE=1 uv sync
-GIT_LFS_SKIP_SMUDGE=1 uv pip install -e .
+python -m pip install --upgrade pip setuptools wheel
+conda install -c nvidia cuda-toolkit=12.8
 ```
 
-NOTE: `GIT_LFS_SKIP_SMUDGE=1` is needed to pull LeRobot as a dependency.
+```bash
+cd lerobot/
+conda install ffmpeg=7.1.1 -c conda-forge
+pip install -e .
+```
 
-**Docker**: As an alternative to uv installation, we provide instructions for installing openpi using Docker. If you encounter issues with your system setup, consider using Docker to simplify installation. See [Docker Setup](docs/docker.md) for more details.
+```bash
+cd dlimp/
+pip install -e .
+```
 
+```bash
+cd packages/
+cd openpi-client/
+pip install -e .
+```
 
+```bash
+cd flaxformer/
+pip install -e .
+```
+
+```bash
+from huggingface_hub import snapshot_download
+
+local_dir = "./modified_libero_rlds"
+
+snapshot_download(
+    repo_id="openvla/modified_libero_rlds",
+    repo_type="dataset",
+    local_dir=local_dir,
+    local_dir_use_symlinks=False, 
+    resume_download=True,          
+)
+print("Done ->", local_dir)
+```
+
+```bash
+export HF_LEROBOT_HOME="/media/forceyqj/3ac51dbb-cd9f-41ab-a94c-a15affbbbe36/flexiv_teleop_dataset/lerobot/"
+python convert_libero_data_to_lerobot.py --data_dir /mnt/shared-storage-user/internvla/Users/qiaojun_yu/dataset/modified_libero_rlds/
+```
+
+```bash
+export HF_LEROBOT_HOME="/media/forceyqj/3ac51dbb-cd9f-41ab-a94c-a15affbbbe36/flexiv_teleop_dataset/lerobot/"
+python scripts/compute_norm_stats.py --config-name pi0_flexiv_lora_eef_pos_eef_action
+XLA_PYTHON_CLIENT_MEM_FRACTION=0.9  python scripts/train.py pi0_flexiv_lora_eef_pos_eef_action --exp-name=my_experiment --overwrite
+```
+
+```bash
+export HF_LEROBOT_HOME="/media/forceyqj/3ac51dbb-cd9f-41ab-a94c-a15affbbbe36/modified_libero_rlds/"
+python convert_libero_data_to_lerobot.py --data_dir  /media/forceyqj/3ac51dbb-cd9f-41ab-a94c-a15affbbbe36/modified_libero_rlds
+python scripts/compute_norm_stats.py --config-name pi0_libero_low_mem_finetune
+XLA_PYTHON_CLIENT_MEM_FRACTION=0.9  python scripts/train.py pi0_libero_low_mem_finetune --exp-name=my_experiment --overwrite
+```
+
+```bash
+export HF_LEROBOT_HOME="/media/forceyqj/3ac51dbb-cd9f-41ab-a94c-a15affbbbe36/flexiv_teleop_dataset/lerobot"
+python scripts/compute_norm_stats.py --config-name forcevla_lora
+XLA_PYTHON_CLIENT_MEM_FRACTION=0.9  python scripts/train.py forcevla_lora --exp-name=my_experiment --overwrite
+
+```
+
+```bash
+AttributeError: cannot import name 'float8_e3m4' from 'ml_dtypes'. Did you mean: 'float8_e5m2'?
+python -m pip install -U pip
+python -m pip install -U ml_dtypes
+```
 
 
 ## Model Checkpoints

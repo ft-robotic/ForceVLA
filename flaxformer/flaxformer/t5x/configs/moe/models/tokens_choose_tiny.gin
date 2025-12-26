@@ -1,0 +1,19 @@
+# Top-2 "tokens choose experts routing" MoE Tiny model.
+#
+# Provides MODEL and NUM_EXPERTS.
+
+include 'flaxformer/t5x/configs/moe/models/tokens_choose_base.gin'
+
+# Architecture overrides
+NUM_ENCODER_LAYERS = 2
+NUM_DECODER_LAYERS = 2
+NUM_HEADS = 6
+HEAD_DIM = 64
+EMBED_DIM = 32
+MLP_DIM = 64
+
+# MoE overrides
+NUM_EXPERTS = 8
+# Only one sparse layer.
+NUM_ENCODER_SPARSE_LAYERS = 1
+NUM_DECODER_SPARSE_LAYERS = 1

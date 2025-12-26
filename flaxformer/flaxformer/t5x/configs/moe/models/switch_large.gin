@@ -1,0 +1,30 @@
+# Switch Transformer Large model.
+#
+# Based on the original Switch Transformer (https://arxiv.org/abs/2101.03961).
+#
+# Note that unlike the original Mesh Tensorflow Switch Transformer, this T5X
+# version does not use any jitter noise in the router.
+#
+# Provides MODEL and NUM_EXPERTS.
+
+from flaxformer.architectures.moe import moe_layers
+
+include 'flaxformer/t5x/configs/moe/models/switch_base.gin'
+
+# Architecture overrides
+NUM_ENCODER_LAYERS = 24
+NUM_DECODER_LAYERS = 24
+NUM_HEADS = 16
+HEAD_DIM = 64
+EMBED_DIM = 1024
+MLP_DIM = 4096
+GROUP_SIZE = 4096  # Smaller than Base
+
+# MoE overrides
+NUM_EXPERTS = 128
+# Replace every other MLP sublayer is an MoE sublayer.
+NUM_ENCODER_SPARSE_LAYERS = 12
+NUM_DECODER_SPARSE_LAYERS = 12
+
+# Switch Transformer Large uses the same activations and output logits
+# projection as the Base config.

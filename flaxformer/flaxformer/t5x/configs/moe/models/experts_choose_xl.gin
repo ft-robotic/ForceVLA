@@ -1,0 +1,21 @@
+# "Experts choose tokens" MoE XL model.
+#
+# Provides MODEL and NUM_EXPERTS.
+
+from flaxformer.architectures.moe import moe_layers
+
+include 'flaxformer/t5x/configs/moe/models/experts_choose_base.gin'
+
+# Architecture overrides
+NUM_ENCODER_LAYERS = 24
+NUM_DECODER_LAYERS = 24
+NUM_HEADS = 32
+HEAD_DIM = 64
+EMBED_DIM = 2048
+MLP_DIM = 5120
+
+# MoE overrides
+NUM_EXPERTS = 64
+# Replace every other dense MLP sublayer with MoE sublayer.
+NUM_ENCODER_SPARSE_LAYERS = 12
+NUM_DECODER_SPARSE_LAYERS = 12
