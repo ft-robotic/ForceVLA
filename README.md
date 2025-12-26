@@ -1,4 +1,7 @@
-# ForceVLA
+# ForceVLA: Enhancing VLA Models with a Force-aware MoE for Contact-rich Manipulation
+## 
+ForceVLA is based on the [π₀ model](https://www.physicalintelligence.company/blog/pi0), a flow-based diffusion vision-language-action model (VLA)； Both training and inference are based on π₀.
+
 ## Requirements
 
 To run the models in this repository, you will need an NVIDIA GPU with at least the following specifications. These estimations assume a single GPU, but you can also use multiple GPUs with model parallelism to reduce per-GPU memory requirements by configuring `fsdp_devices` in the training config. Please also note that the current training script does not yet support multi-node training.
@@ -50,7 +53,7 @@ pip install -e .
 cd flaxformer/
 pip install -e .
 ```
-
+## train policy
 ```bash
 export HF_LEROBOT_HOME="xxxxxx"
 python scripts/compute_norm_stats.py --config-name forcevla_lora
