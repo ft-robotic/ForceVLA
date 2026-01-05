@@ -39,7 +39,7 @@ pip install -e .
 ```
 
 ```bash
-cd ./ForceVLA
+cd ./openpi
 pip install -e .
 ```
 
