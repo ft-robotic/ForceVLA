@@ -61,6 +61,6 @@ pip install -e .
 ## train policy
 ```bash
 export HF_LEROBOT_HOME="xxxxxx"
-python scripts/compute_norm_stats.py --config-name forcevla_lora
-XLA_PYTHON_CLIENT_MEM_FRACTION=0.9  python scripts/train.py forcevla_lora --exp-name=my_experiment --overwrite
+python scripts/compute_norm_stats.py --config-name forcevla_lora 
+XLA_PYTHON_CLIENT_MEM_FRACTION=0.9  python scripts/train.py forcevla_lora --exp-name=my_experiment --overwrite  --batch_size 32 --save_interval 2000 --keep_period 10000
 ```
